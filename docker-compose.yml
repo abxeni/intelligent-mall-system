@@ -2,17 +2,14 @@ services:
   pricing-agent:
     build: ./agents/pricing-agent
     ports: ["8001:8000"]
-    env_file: [.env]
   apriori-service:
     build: ./apriori-service
     ports: ["8002:8000"]
-    env_file: [.env]
   recommender-service:
     build: ./recommender-service
     ports: ["8003:8000"]
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-    env_file: [.env]
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
   postgres:
     image: pgvector/pgvector:pg16
     environment:
@@ -21,5 +18,18 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports: ["5432:5432"]
     volumes: [mall-data:/var/lib/postgresql/data]
+  frontend:
+    image: node:22-alpine
+    working_dir: /workspace
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports: ["5173:5173"]
+    volumes:
+      - ./frontend:/workspace
+      - frontend-node-modules:/workspace/node_modules
+    environment:
+      PRICING_API_TARGET: http://pricing-agent:8000
+      APRIORI_API_TARGET: http://apriori-service:8000
+      RECOMMENDER_API_TARGET: http://recommender-service:8000
 volumes:
   mall-data:
+  frontend-node-modules:

@@ -32,17 +32,32 @@ boundary and response shape.
 
 ## Run locally
 
-To run all three services and PostgreSQL:
+To run the web dashboard, three APIs, and PostgreSQL:
 
 ```powershell
+Copy-Item .env.example .env
 docker compose up --build
 ```
 
-The service documentation is available at:
+Open the dashboard at <http://127.0.0.1:5173>. The service documentation is
+available at:
 
 - Pricing agent: <http://127.0.0.1:8001/docs>
 - Apriori service: <http://127.0.0.1:8002/docs>
 - Recommender service: <http://127.0.0.1:8003/docs>
+
+### Web dashboard (without Docker)
+
+With the three backend services running, start the frontend development server:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Open <http://127.0.0.1:5173>. The dashboard proxies its requests to the local
+APIs; try Pricing Lab, Basket Insights, and Recommendations from the sidebar.
 
 For development without Docker, create a Python 3.12 virtual environment and
 install each service's `requirements.txt`.
