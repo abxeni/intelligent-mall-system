@@ -1,10 +1,25 @@
 # Intelligent Mall System
 
 This project modernizes a university mall discount-scheme system into a
-cloud-native platform. The first implemented component is the pricing-agent
-service from Phase 1 of the build plan.
+cloud-native platform with three services: a pricing agent, an Apriori mining
+service, and a recommender service.
 
-## Phase 1: Pricing agent
+## Architecture
+
+```mermaid
+flowchart LR
+  Client --> Pricing[Pricing agent]
+  Client --> Apriori[Apriori service]
+  Client --> Recommender[Recommender service]
+  Pricing --> EKS[(Amazon EKS)]
+  Apriori --> EKS
+  Recommender --> PG[(PostgreSQL + pgvector)]
+  CI[GitHub Actions] --> ECR[Amazon ECR]
+  ECR --> Argo[Argo CD / GitOps]
+  Argo --> EKS
+```
+
+## Services
 
 The pricing agent exposes a FastAPI endpoint that accepts recent shop sales and
 the current discount, then recommends a discount and estimates its reward.
@@ -17,16 +32,20 @@ boundary and response shape.
 
 ## Run locally
 
-From `agents/pricing-agent`:
+To run all three services and PostgreSQL:
 
 ```powershell
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-uvicorn app.main:app --reload
+docker compose up --build
 ```
 
-Open the API documentation at <http://127.0.0.1:8000/docs>.
+The service documentation is available at:
+
+- Pricing agent: <http://127.0.0.1:8001/docs>
+- Apriori service: <http://127.0.0.1:8002/docs>
+- Recommender service: <http://127.0.0.1:8003/docs>
+
+For development without Docker, create a Python 3.12 virtual environment and
+install each service's `requirements.txt`.
 
 Example request:
 
@@ -41,6 +60,23 @@ Invoke-RestMethod `
 ## Test
 
 ```powershell
-python -m pytest
+python -m pytest agents/pricing-agent/tests
+python -m pytest apriori-service/tests
+python -m pytest recommender-service/tests
 ```
 
+## Cloud deployment configuration
+
+The `terraform/`, `helm/`, `.github/workflows/`, `observability/`, and `mlops/`
+directories contain deployment-ready templates for later phases. They do not
+provision resources automatically. Configure AWS credentials, an OIDC trust
+relationship for GitHub Actions, remote Terraform state, and a separate
+`intelligent-mall-gitops` repository before applying them.
+
+## Secrets and configuration
+
+See [config/README.md](config/README.md). Local development uses an ignored
+`.env`; GitHub Actions uses short-lived AWS credentials through OIDC; AWS
+Secrets Manager or SSM supplies runtime secrets; and External Secrets Operator
+projects those values into Kubernetes. No credential should be added to this
+repository.

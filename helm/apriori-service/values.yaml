@@ -1,0 +1,5 @@
+replicaCount: 2
+image:
+  repository: ACCOUNT.dkr.ecr.REGION.amazonaws.com/intelligent-mall/apriori-service
+  tag: latest
+

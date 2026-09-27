@@ -11,6 +11,8 @@ app = FastAPI(
     description="Generates discount schemes from recent shop sales.",
 )
 policy = PricingPolicy()
+scheme_count = 0
+reward_total = 0.0
 
 
 class GenerateSchemeRequest(BaseModel):
@@ -32,13 +34,28 @@ def health() -> dict[str, str]:
 
 @app.post("/generate-scheme", response_model=GenerateSchemeResponse)
 def generate_scheme(request: GenerateSchemeRequest) -> GenerateSchemeResponse:
+    global scheme_count, reward_total
     recommendation = policy.recommend(
         recent_sales=request.recent_sales,
         current_discount=request.current_discount,
     )
+    scheme_count += 1
+    reward_total += recommendation.expected_reward
     return GenerateSchemeResponse(
         shop_id=request.shop_id,
         recommended_discount=recommendation.recommended_discount,
         expected_reward=recommendation.expected_reward,
     )
 
+
+@app.get("/metrics", include_in_schema=False)
+def metrics() -> str:
+    average_reward = reward_total / scheme_count if scheme_count else 0.0
+    return (
+        "# HELP pricing_agent_schemes_total Number of schemes generated.\n"
+        "# TYPE pricing_agent_schemes_total counter\n"
+        f"pricing_agent_schemes_total {scheme_count}\n"
+        "# HELP pricing_agent_average_reward Average expected reward.\n"
+        "# TYPE pricing_agent_average_reward gauge\n"
+        f"pricing_agent_average_reward {average_reward}\n"
+    )

@@ -1,0 +1,6 @@
+canary:
+  enabled: true
+  stableWeight: 90
+  canaryWeight: 10
+  promotionMetric: pricing_agent_average_reward
+

@@ -1,0 +1,15 @@
+name: Retrain pricing policy
+
+on:
+  schedule:
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Run the policy training/evaluation job here."
+      - run: echo "Promote only when held-out reward beats production."
+

@@ -6,5 +6,12 @@ __pycache__/
 .coverage
 htmlcov/
 .env
+.env.*
+!.env.example
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.secrets/
 .DS_Store
-

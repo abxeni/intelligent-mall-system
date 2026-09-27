@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommender-service
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels: { app: recommender-service }
+  template:
+    metadata: { labels: { app: recommender-service } }
+    spec:
+      containers:
+        - name: recommender-service
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /health, port: 8000 } }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommender-service
+spec:
+  selector: { app: recommender-service }
+  ports: [{ port: 8000, targetPort: 8000 }]

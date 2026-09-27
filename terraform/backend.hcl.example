@@ -1,0 +1,5 @@
+bucket         = "replace-with-existing-state-bucket"
+key            = "intelligent-mall/dev/terraform.tfstate"
+region         = "us-east-1"
+dynamodb_table = "replace-with-existing-lock-table"
+encrypt        = true

@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - agents/pricing-agent
+          - apriori-service
+          - recommender-service
+    defaults:
+      run:
+        working-directory: ${{ matrix.service }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pytest
+  build:
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - agents/pricing-agent
+          - apriori-service
+          - recommender-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.service }}
+          push: true
+          tags: |
+            ${{ secrets.ECR_REGISTRY }}/intelligent-mall/${{ matrix.service }}:${{ github.sha }}
+            ${{ secrets.ECR_REGISTRY }}/intelligent-mall/${{ matrix.service }}:latest

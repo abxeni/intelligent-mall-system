@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: pricing-agent-alerts
+spec:
+  groups:
+    - name: pricing-agent
+      rules:
+        - alert: PricingAgentAverageRewardNegative
+          expr: avg_over_time(pricing_agent_average_reward[5m]) < 0
+          for: 5m
+          labels: { severity: warning }
+          annotations:
+            summary: Pricing agent reward is negative
+            runbook: https://github.com/abxeni/intelligent-mall-system/blob/main/observability/runbook.md
+

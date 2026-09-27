@@ -1,0 +1,7 @@
+replicaCount: 2
+image:
+  repository: ACCOUNT.dkr.ecr.REGION.amazonaws.com/intelligent-mall/pricing-agent
+  tag: latest
+service:
+  port: 8000
+
