@@ -450,9 +450,9 @@ function setPage(page) {
 function renderLogin() {
   pageContent.innerHTML = `
     <section class="login-page">
-      <span class="login-mark">M</span>
+      <img class="login-wordmark" src="/images/CortexMallText.png" alt="CortexMall" />
       <div class="eyebrow"><span class="eyebrow-line"></span> LOCAL DEMO WORKSPACE</div>
-      <h1>Welcome back to MallIQ</h1>
+      <h1>Welcome to CortexMall</h1>
       <p>Choose a demo workspace to continue. No password or real account is used.</p>
       <div class="login-cards" id="login-cards"><div class="loading-card">Loading demo workspaces…</div></div>
       <div class="role-warning"><strong>Demo access only</strong><span>This account picker does not authenticate users or protect data. Do not use it for production access.</span></div>
@@ -522,7 +522,7 @@ async function renderOverview() {
         <div class="chart-legend"><span><i class="legend-purple"></i> Completed orders</span></div>
       </article>
       <article class="panel services-panel">
-        <div class="panel-heading"><div><h2>Intelligence hub</h2><p>Your mall’s AI-powered tools</p></div><span class="hub-spark">✦</span></div>
+        <div class="panel-heading"><div><h2>Intelligence hub</h2><p>Your mall’s AI-powered tools</p></div>        <img class="hub-illustration" src="/images/brainImage.png" alt="" /></div>
         <button class="tool-card" data-tool="pricing"><span class="tool-icon tool-purple">↗</span><span class="tool-copy"><strong>Smart pricing</strong><small>Optimize your discount schemes</small></span><span class="tool-arrow">↗</span></button>
         <button class="tool-card" data-tool="insights"><span class="tool-icon tool-orange">▦</span><span class="tool-copy"><strong>Basket insights</strong><small>Discover products shoppers pair</small></span><span class="tool-arrow">↗</span></button>
         <button class="tool-card" data-tool="recommendations"><span class="tool-icon tool-blue">✳</span><span class="tool-copy"><strong>Personalized picks</strong><small>Find the right products for shoppers</small></span><span class="tool-arrow">↗</span></button>

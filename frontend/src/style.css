@@ -76,3 +76,8 @@ h1,h2,p { margin-top: 0; }.welcome-row h1,.page-intro h1 { font: 700 25px Manrop
 @media (max-width: 760px) { .directory-toolbar { flex-wrap: wrap; }.directory-count { width: 100%; }.search-field { width: auto; flex: 1; }.filter-select { min-width: 112px; }.directory-panel { padding: 13px; }.account-grid { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .login-mode .main-content { padding: 0 17px; }.login-page { margin-top: 4vh; }.login-cards { grid-template-columns: 1fr; }.login-card>strong { min-height: auto; } }
 @media (max-width: 430px) { .sidebar { gap: 5px; }.brand { gap: 6px; }.brand-name { font-size: 16px; }.nav-item { padding: 0 7px; }.nav-item .nav-icon { display: none; }.main-content { padding: 0 12px; }.welcome-row { align-items: start; }.date-button { font-size: 8px; padding: 7px; }.metric-change { display: block; margin: 2px 0 0; }.metric-value { font-size: 18px; }.activity-description span { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.activity-time { display: none; }.activity-row { min-height: 52px; }.page-footer { font-size: 7px; }.topbar-avatar { width: 27px; height: 27px; }.system-status { gap: 5px; } }
+/* CortexMall brand assets */
+.brand-mark { display: block; object-fit: contain; background: transparent; box-shadow: none; }
+.brand-name { color: #24243a; }
+.hub-illustration { width: 38px; height: 38px; flex: 0 0 auto; object-fit: contain; border-radius: 50%; }
+.login-wordmark { display: block; width: min(230px, 100%); height: auto; margin-bottom: 22px; border-radius: 10px; background: #050b29; box-shadow: 0 8px 20px #0b123326; }
