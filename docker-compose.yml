@@ -9,7 +9,20 @@ services:
     build: ./recommender-service
     ports: ["8003:8000"]
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_PATH: /data/mall.db
+      DEMO_DATA_SEED: ${DEMO_DATA_SEED:-20260927}
+      DEMO_CUSTOMER_COUNT: ${DEMO_CUSTOMER_COUNT:-120}
+      DEMO_PRODUCT_COUNT: ${DEMO_PRODUCT_COUNT:-150}
+      DEMO_COMPLETED_TRANSACTION_COUNT: ${DEMO_COMPLETED_TRANSACTION_COUNT:-150}
+      DEMO_PENDING_TRANSACTION_COUNT: ${DEMO_PENDING_TRANSACTION_COUNT:-35}
+      DEMO_STORE_COUNT: ${DEMO_STORE_COUNT:-20}
+      MALL_NAME: ${MALL_NAME:-Intelligent Mall}
+      DEMO_ADMIN_ID: ${DEMO_ADMIN_ID:-ADMIN-001}
+      DEMO_ADMIN_NAME: ${DEMO_ADMIN_NAME:-Mall Administrator}
+      DEMO_ADMIN_EMAIL: ${DEMO_ADMIN_EMAIL:-admin@example.test}
+      DEMO_MANAGER_NAME: ${DEMO_MANAGER_NAME:-Store Manager}
+    volumes:
+      - mall-data:/data
   postgres:
     image: pgvector/pgvector:pg16
     environment:

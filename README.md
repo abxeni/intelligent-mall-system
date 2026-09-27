@@ -46,6 +46,19 @@ available at:
 - Apriori service: <http://127.0.0.1:8002/docs>
 - Recommender service: <http://127.0.0.1:8003/docs>
 
+The recommender service generates configurable local demo fixtures on its
+first start: at least 100 customers, products, and completed transactions,
+plus at least 30 pending transactions. Counts and seed are set through
+`DEMO_*` values in `.env.example`; generated rows live in SQLite and are
+persistent across restarts. Changing seed/count values does not overwrite an
+existing database. For a clean local reseed, stop the service and remove only
+the ignored local database at `recommender-service/data/mall.db`.
+
+The frontend includes a demo account workspace switcher with administrator,
+store-manager, and customer views. This is a local UI preview, not
+authentication or backend authorization; do not expose it as a secure
+multi-user service.
+
 ### Web dashboard (without Docker)
 
 With the three backend services running, start the frontend development server:
@@ -58,6 +71,13 @@ npm run dev
 
 Open <http://127.0.0.1:5173>. The dashboard proxies its requests to the local
 APIs; try Pricing Lab, Basket Insights, and Recommendations from the sidebar.
+
+### Dashboard images and logos
+
+Place dashboard images in `frontend/public/images/` and logos in
+`frontend/public/images/logos/`. Vite serves these files from the site root,
+so for example `frontend/public/images/logos/mall-logo.svg` is available at
+`/images/logos/mall-logo.svg`.
 
 For development without Docker, create a Python 3.12 virtual environment and
 install each service's `requirements.txt`.

@@ -17,4 +17,5 @@ npm-debug.log*
 *.tfvars
 !*.tfvars.example
 .secrets/
+recommender-service/data/*.db
 .DS_Store

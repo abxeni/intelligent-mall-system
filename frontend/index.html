@@ -19,7 +19,7 @@
   <body>
     <div class="app-shell">
       <aside class="sidebar">
-        <a class="brand" href="#" aria-label="MallIQ home">
+        <a class="brand" id="brand-home" href="#" aria-label="MallIQ home">
           <span class="brand-mark">M</span>
           <span class="brand-name">Mall<span>IQ</span></span>
         </a>
@@ -38,6 +38,18 @@
           <button class="nav-item" data-page="recommendations">
             <span class="nav-icon">✳</span><span>Recommendations</span>
           </button>
+          <button class="nav-item" data-page="customers">
+            <span class="nav-icon">♙</span><span>Customers</span>
+          </button>
+          <button class="nav-item" data-page="products">
+            <span class="nav-icon">▤</span><span>Products</span>
+          </button>
+          <button class="nav-item" data-page="transactions">
+            <span class="nav-icon">↔</span><span>Transactions</span>
+          </button>
+          <button class="nav-item" data-page="accounts">
+            <span class="nav-icon">◎</span><span>Accounts &amp; roles</span>
+          </button>
         </nav>
         <div class="sidebar-spacer"></div>
         <div class="sidebar-help">
@@ -47,9 +59,11 @@
           <span class="help-tag">INTELLIGENCE, BUILT IN</span>
         </div>
         <div class="profile">
-          <div class="avatar">AM</div>
-          <div class="profile-copy"><strong>Alex Morgan</strong><span>Mall administrator</span></div>
-          <span class="profile-menu">···</span>
+          <button class="profile-open" id="profile-open" aria-label="Open current account">
+            <span class="avatar" id="sidebar-avatar">MA</span>
+            <span class="profile-copy"><strong id="sidebar-name">Mall Administrator</strong><span id="sidebar-role">Mall administrator</span></span>
+          </button>
+          <button class="profile-menu" id="sign-out" aria-label="Sign out" title="Sign out">↪</button>
         </div>
       </aside>
 
@@ -58,10 +72,15 @@
           <div class="breadcrumbs"><span>Workspace</span><span class="crumb-slash">/</span><strong id="current-section">Overview</strong></div>
           <div class="topbar-actions">
             <div class="system-status"><span class="status-dot" id="status-dot"></span><span id="status-label">Checking services</span></div>
-            <button class="icon-button" aria-label="Notifications">♧<i></i></button>
-            <div class="topbar-avatar">AM</div>
+            <button class="icon-button" id="notifications-button" aria-label="Open notifications" aria-expanded="false" aria-controls="notification-popover">♧<i id="notification-indicator" hidden></i></button>
+            <button class="topbar-avatar" id="account-shortcut" aria-label="Current account">MA</button>
           </div>
         </header>
+        <section class="notification-popover" id="notification-popover" aria-label="Notifications" hidden>
+          <div class="notification-heading"><div><strong>Notifications</strong><span id="notification-summary">Checking pending activity…</span></div><button class="text-button" id="mark-notifications-read">Mark all read</button></div>
+          <div id="notification-list" class="notification-list"></div>
+          <button class="notification-footer" id="notification-view-all">Review pending orders <span>→</span></button>
+        </section>
         <div id="page-content" class="page-content"></div>
         <footer class="page-footer">
           <span>© 2026 MallIQ Intelligence</span>
